@@ -596,12 +596,51 @@
   - [x] Exam Hall Roadmap & Refined 3 Cases locked in `TODO.md`
   - [x] Core Exam Hall analyzer implemented (`test/exam_analyzer.py`)
   - [x] Multi-Angle Camera Ingestion & Fusion Script implemented (`test/multi_camera_exam_sync.py`)
-  - [x] User-Provided Footage Evaluated (`test/videos/looking around.mp4`)
+  - [x] User-Provided Footage Evaluated (`looking around.mp4`, `WhatsApp Video 1`, `WhatsApp Video 2`)
   - [x] Elapsed Video Time & Frame Interval Schema Upgrade (`video_time_interval` & `frame_interval`)
   - [x] Comprehensive Submission `README.md` & Git Packaging (100% committed)
   - [x] Remote Git Push to `https://github.com/jenisia-tech/Cheating-monitor.git`
   - [ ] Security & Proctoring Command Dashboard UI + Backend (0%)
-- **Status**: User video `looking around.mp4` evaluated; successfully detected repeated inter-desk peeking.
+- **Status**: Evaluated 2 new user exam videos (`WhatsApp Video 1` and `WhatsApp Video 2`).
+
+---
+
+## Log Entry 029
+**Timestamp**: 2026-10-07T15:04:15+05:30
+
+### Instance 1: Implementation Details
+- **New Assets Tested**:
+  1. `test/videos/WhatsApp Video 2026-10-07 at 14.56.05.mp4` (3.95 MB, 576 frames @ 30.00 FPS, 19.20s duration).
+  2. `test/videos/WhatsApp Video 2026-10-07 at 14.56.05 (1).mp4` (2.22 MB, 327 frames @ 30.01 FPS, 10.90s duration).
+- **Execution Runs**:
+  - Executed: `python3.11 test/exam_analyzer.py --video "WhatsApp Video 2026-10-07 at 14.56.05.mp4"`.
+  - Executed: `python3.11 test/exam_analyzer.py --video "WhatsApp Video 2026-10-07 at 14.56.05 (1).mp4"`.
+- **Results & Verified Outputs**:
+  - `test/outputs/WhatsApp Video 2026-10-07 at 14.56.05_exam_incidents.json`:
+    - Logged `UNAUTHORIZED_DESK_ABANDONMENT` (Frame 113 to 289, `0m 03s` to `0m 09s`, duration: 6.00s).
+  - `test/outputs/WhatsApp Video 2026-10-07 at 14.56.05 (1)_exam_incidents.json`:
+    - Logged `UNAUTHORIZED_DESK_ABANDONMENT` (Frame 139 to 326, `0m 04s` to `0m 10s`, duration: 6.23s).
+  - Generated annotated debug videos with bounding boxes, keypoints, and alert badges.
+- **Rule Compliance**: 100% compliant with Rules 1–8.
+
+### Instance 2: Progress & Completion Tracking
+- **Overall Progress**: 99%
+- **Milestone Checklist**:
+  - [x] Problem statement & requirements analysis (`Images for reference/HNX26PSI07.pdf` -> Page 11)
+  - [x] Governance and logging protocol established (`rules`, `logs`, `TODO.md`)
+  - [x] Host hardware profile (Intel Dual-Core i5, 8GB RAM) pinned in `rules`
+  - [x] Strict workspace file/model containment enforced in `rules` (Rule 7)
+  - [x] Clean directory organization structure & archival protocol enforced in `rules` (Rule 8)
+  - [x] Exam Hall Roadmap & Refined 3 Cases locked in `TODO.md`
+  - [x] Core Exam Hall analyzer implemented (`test/exam_analyzer.py`)
+  - [x] Multi-Angle Camera Ingestion & Fusion Script implemented (`test/multi_camera_exam_sync.py`)
+  - [x] User-Provided Footage Evaluated (`looking around.mp4`, `WhatsApp Video 1`, `WhatsApp Video 2`)
+  - [x] Elapsed Video Time & Frame Interval Schema Upgrade (`video_time_interval` & `frame_interval`)
+  - [x] Comprehensive Submission `README.md` & Git Packaging (100% committed)
+  - [x] Remote Git Push to `https://github.com/jenisia-tech/Cheating-monitor.git`
+  - [ ] Security & Proctoring Command Dashboard UI + Backend (0%)
+- **Status**: Evaluated 2 new user exam videos (`WhatsApp Video 1` and `WhatsApp Video 2`).
+
 
 
 

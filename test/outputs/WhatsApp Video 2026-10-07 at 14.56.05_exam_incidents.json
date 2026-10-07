@@ -1,0 +1,51 @@
+{
+  "exam_surveillance_metadata": {
+    "file_path": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/WhatsApp Video 2026-10-07 at 14.56.05.mp4",
+    "camera_source": "Cam_01_ExamHall",
+    "total_frames": 576,
+    "fps": 30.0,
+    "duration_seconds": 19.2,
+    "simulated_start_time": "10:00:00",
+    "desk_zones_configured": [
+      "Desk_01",
+      "Desk_02",
+      "Desk_03",
+      "Desk_04",
+      "Invigilator_Podium",
+      "Desk_Candidate_01",
+      "Desk_Candidate_04"
+    ]
+  },
+  "summary": {
+    "total_candidates_tracked": 2,
+    "total_anomalies_detected": 1,
+    "anomalies_by_type": {
+      "UNAUTHORIZED_DESK_ABANDONMENT": 1,
+      "CANDIDATE_UNRESPONSIVE_SLUMP": 0,
+      "REPEATED_INTER_DESK_PEEKING": 0
+    }
+  },
+  "incidents": [
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Candidate_01",
+      "assigned_desk": "Desk_Candidate_01",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 113,
+      "end_frame": 289,
+      "frame_interval": [
+        113,
+        289
+      ],
+      "video_time_start": "0m 03s",
+      "video_time_end": "0m 09s",
+      "video_time_interval": "0m 03s - 0m 09s (00:03 - 00:09)",
+      "duration": "5.87s (177 frames)",
+      "duration_seconds": 5.87,
+      "start_timestamp": "10:00:03.767",
+      "end_timestamp": "10:00:09.634",
+      "reason": "Candidate_Desk_Candidate_01 abandoned assigned Desk_Candidate_01 and is wandering in aisles/unauthorized areas for > 5.0s."
+    }
+  ]
+}
