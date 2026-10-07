@@ -1,0 +1,27 @@
+{
+  "exam_surveillance_metadata": {
+    "file_path": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/cctv_people_surveillance.mp4",
+    "camera_source": "Cam_01_ExamHall",
+    "total_frames": 596,
+    "fps": 12.0,
+    "duration_seconds": 49.67,
+    "simulated_start_time": "10:00:00",
+    "desk_zones_configured": [
+      "Desk_01",
+      "Desk_02",
+      "Desk_03",
+      "Desk_04",
+      "Invigilator_Podium"
+    ]
+  },
+  "summary": {
+    "total_candidates_tracked": 7,
+    "total_anomalies_detected": 0,
+    "anomalies_by_type": {
+      "UNAUTHORIZED_DESK_ABANDONMENT": 0,
+      "CANDIDATE_UNRESPONSIVE_SLUMP": 0,
+      "REPEATED_INTER_DESK_PEEKING": 0
+    }
+  },
+  "incidents": []
+}

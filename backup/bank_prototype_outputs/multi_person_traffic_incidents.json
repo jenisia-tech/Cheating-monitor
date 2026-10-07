@@ -1,0 +1,51 @@
+{
+  "video_metadata": {
+    "file_path": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/multi_person_traffic.mp4",
+    "total_frames": 647,
+    "fps": 12.0,
+    "duration_seconds": 53.92,
+    "operating_hours_configured": "09:00:00 to 17:00:00",
+    "simulated_start_time": "10:00:00"
+  },
+  "summary": {
+    "total_unique_tracks": 2,
+    "total_anomalies_detected": 2,
+    "anomalies_by_type": {
+      "UNAUTHORIZED_ZONE_BREACH": 2,
+      "AFTER_HOURS_INTRUSION": 0,
+      "FALL_AND_UNRESPONSIVE": 0
+    }
+  },
+  "incidents": [
+    {
+      "event_type": "UNAUTHORIZED_ZONE_BREACH",
+      "severity": "CRITICAL",
+      "track_id": 1,
+      "zone": "Behind_Teller_Counter",
+      "start_frame": 69,
+      "start_timestamp": "10:00:05.750",
+      "end_frame": 81,
+      "end_timestamp": "10:00:06.750",
+      "foot_coordinates": [
+        708.5,
+        219.8
+      ],
+      "reason": "Person (Track #1) entered forbidden security zone 'Behind_Teller_Counter' at ground coordinates (708.5, 219.8) without authorization."
+    },
+    {
+      "event_type": "UNAUTHORIZED_ZONE_BREACH",
+      "severity": "CRITICAL",
+      "track_id": 2,
+      "zone": "Behind_Teller_Counter",
+      "start_frame": 83,
+      "start_timestamp": "10:00:06.917",
+      "end_frame": 85,
+      "end_timestamp": "10:00:07.083",
+      "foot_coordinates": [
+        755.4,
+        193.7
+      ],
+      "reason": "Person (Track #2) entered forbidden security zone 'Behind_Teller_Counter' at ground coordinates (755.4, 193.7) without authorization."
+    }
+  ]
+}

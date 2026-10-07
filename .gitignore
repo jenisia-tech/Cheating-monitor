@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Virtual Environments
+venv/
+central_env/
+.env
+
+# Large Media and Model Weights (Prevents GitHub 100MB limit & repo bloat)
+test/models/*.pt
+test/models/*.pth
+test/models/*.onnx
+test/videos/*.mp4
+test/videos/*.webm
+test/videos/*.avi
+test/outputs/*.mp4
+
+# Retain directory structures
+!test/models/.gitkeep
+!test/videos/.gitkeep
+!test/outputs/.gitkeep

@@ -1,0 +1,133 @@
+{
+  "exam_surveillance_metadata": {
+    "file_path": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/real_life_indoor_cctv.mp4",
+    "camera_source": "Cam_01_ExamHall",
+    "total_frames": 732,
+    "fps": 12.0,
+    "duration_seconds": 61.0,
+    "simulated_start_time": "10:00:00",
+    "desk_zones_configured": [
+      "Desk_01",
+      "Desk_02",
+      "Desk_03",
+      "Desk_04",
+      "Invigilator_Podium"
+    ]
+  },
+  "summary": {
+    "total_candidates_tracked": 7,
+    "total_anomalies_detected": 8,
+    "anomalies_by_type": {
+      "UNAUTHORIZED_DESK_ABANDONMENT": 7,
+      "CANDIDATE_UNRESPONSIVE_SLUMP": 0,
+      "REPEATED_INTER_DESK_PEEKING": 1
+    }
+  },
+  "incidents": [
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Roaming_1",
+      "assigned_desk": "Desk_Roaming_1",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 26,
+      "start_timestamp": "10:00:02.167",
+      "end_frame": 116,
+      "end_timestamp": "10:00:09.667",
+      "duration_seconds": 7.5,
+      "reason": "Candidate_Desk_Roaming_1 abandoned assigned Desk_Roaming_1 and is wandering in aisles/unauthorized areas for > 5.0s."
+    },
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_02",
+      "assigned_desk": "Desk_02",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 218,
+      "start_timestamp": "10:00:18.167",
+      "end_frame": 304,
+      "end_timestamp": "10:00:25.333",
+      "duration_seconds": 7.17,
+      "reason": "Candidate_Desk_02 abandoned assigned Desk_02 and is wandering in aisles/unauthorized areas for > 5.0s."
+    },
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Roaming_7",
+      "assigned_desk": "Desk_Roaming_7",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 232,
+      "start_timestamp": "10:00:19.333",
+      "end_frame": 309,
+      "end_timestamp": "10:00:25.750",
+      "duration_seconds": 6.42,
+      "reason": "Candidate_Desk_Roaming_7 abandoned assigned Desk_Roaming_7 and is wandering in aisles/unauthorized areas for > 5.0s."
+    },
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Roaming_8",
+      "assigned_desk": "Desk_Roaming_8",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 427,
+      "start_timestamp": "10:00:35.583",
+      "end_frame": 499,
+      "end_timestamp": "10:00:41.583",
+      "duration_seconds": 6.0,
+      "reason": "Candidate_Desk_Roaming_8 abandoned assigned Desk_Roaming_8 and is wandering in aisles/unauthorized areas for > 5.0s."
+    },
+    {
+      "event_type": "REPEATED_INTER_DESK_PEEKING",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Roaming_8",
+      "assigned_desk": "Desk_Roaming_8",
+      "target_desks": "Desk_01, Desk_02",
+      "repeated_episodes_count": 2,
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 446,
+      "start_timestamp": "10:00:37.167",
+      "end_frame": 499,
+      "end_timestamp": "10:00:41.583",
+      "reason": "Candidate_Desk_Roaming_8 exhibited repeated suspicious peeking/leaning (2 distinct episodes in 60s window) towards adjacent Desk_01, Desk_02 (Single glances were filtered)."
+    },
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Roaming_10",
+      "assigned_desk": "Desk_Roaming_10",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 448,
+      "start_timestamp": "10:00:37.333",
+      "end_frame": 510,
+      "end_timestamp": "10:00:42.500",
+      "duration_seconds": 5.17,
+      "reason": "Candidate_Desk_Roaming_10 abandoned assigned Desk_Roaming_10 and is wandering in aisles/unauthorized areas for > 5.0s."
+    },
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Roaming_9",
+      "assigned_desk": "Desk_Roaming_9",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 435,
+      "start_timestamp": "10:00:36.250",
+      "end_frame": 516,
+      "end_timestamp": "10:00:43.000",
+      "duration_seconds": 6.75,
+      "reason": "Candidate_Desk_Roaming_9 abandoned assigned Desk_Roaming_9 and is wandering in aisles/unauthorized areas for > 5.0s."
+    },
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Roaming_12",
+      "assigned_desk": "Desk_Roaming_12",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 631,
+      "start_timestamp": "10:00:52.583",
+      "end_frame": 694,
+      "end_timestamp": "10:00:57.833",
+      "duration_seconds": 5.25,
+      "reason": "Candidate_Desk_Roaming_12 abandoned assigned Desk_Roaming_12 and is wandering in aisles/unauthorized areas for > 5.0s."
+    }
+  ]
+}

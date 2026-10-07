@@ -1,0 +1,46 @@
+# Project Operating Rules & Constraints
+
+1. **No Execution Without Explicit Command & Terminal Output Analysis Protocol**:
+   - No implementation work, code generation, bug fixing, or background tasks will start until explicitly instructed by the user.
+   - When provided with a terminal output or error log:
+     - Only provide an objective diagnostic report detailing what was observed and recommended steps to fix.
+     - Do NOT attempt to automatically apply code fixes or modifications until the user explicitly gives the command to do so.
+2. **Dual-Instance Change Logging**: Every single edit, modification, and file creation must be rigorously documented in the `logs` file under two specific sections/instances:
+   - **Instance 1: Implementation Details**: Technical explanation of what was modified/added, files touched, architectural rationale, and edge cases handled.
+   - **Instance 2: Progress & Completion Tracking**: Percentage completed against the roadmap, milestone checklist, and outstanding debt/next steps.
+3. **Critical & Logical Reasoning (No Yes-Man)**: Evaluate every architectural decision, edge case, and requirement with objective technical rigor. Proactively challenge flawed assumptions, highlight blind spots, and offer optimal engineering alternatives with clear trade-offs.
+4. **Python Version & Venv Activation Protocol**:
+   - Always activate the central virtual environment before running python commands:
+     ```bash
+     source ~/central_env/bin/activate
+     ```
+   - Always invoke Python using `python3.11` or through the activated `central_env`.
+   - Example command pattern:
+     ```bash
+     source ~/central_env/bin/activate && python3.11 <script_path>.py
+     ```
+5. **Target Hardware Profile & Compute Constraints**:
+   - **Host Machine**: MacBook Pro (13-inch, 2017, Two Thunderbolt 3 ports)
+   - **OS**: macOS Monterey Version 12.7.6 (Intel x86_64)
+   - **CPU**: 2.3 GHz Dual-Core Intel Core i5
+   - **RAM**: 8 GB 2133 MHz LPDDR3
+   - **Graphics**: Intel Iris Plus Graphics 640 1536 MB
+   - **Hardware Rules & Directives**:
+     - Do NOT use heavy models (`yolo11m`/`yolo11x` or VLMs) as they will throttle the Dual-Core Intel CPU and exhaust 8 GB RAM.
+     - Strictly prioritize lightweight models (`yolo11n-pose.pt` or `yolov8n-pose.pt` / `yolo11s-pose.pt`) with CPU/OpenMP thread limits (`torch.set_num_threads(2)`).
+     - Mandate frame stride subsampling (`stride >= 2`) for long video processing to prevent thermal throttling and memory leaks.
+6. **Canonical Problem Statement Specification**:
+   - **Primary Document**: `Images for reference/HNX26PSI07.pdf` (Hacknex Qualifier Problem Statement Booklet).
+   - **Assigned Problem ID**: `HNX26PSI07: Autonomous Vision & Behaviour Understanding` (Page 11 of the booklet).
+   - **Submission Requirements**: Public Git repository with comprehensive README, data pipeline demonstration, explainable reasoning with timestamps & confidence, and live/recorded working system demonstration (as outlined on Page 3). Presentation (PPT) is NOT necessary.
+7. **Strict Workspace File & Model Containment**:
+   - All AI models, YOLO weights (`.pt` files), test video downloads, cache files, and intermediate outputs MUST be saved strictly inside the workspace (specifically inside the `test/` directory).
+   - Never write cache, weights, or temporary files to `~/.cache`, `~/.config`, `/tmp`, or global system locations. Set `TORCH_HOME` and `YOLO_CONFIG_DIR` to the local `test/` directory.
+8. **Clean File & Directory Organization & Archival Protocol**:
+   - Never leave new files scattered loosely in root or arbitrary directories. Maintain structured subfolders for clear modular separation:
+     - `test/models/`: AI model weights (`.pt`).
+     - `test/videos/`: Raw input CCTV and test video clips (`.mp4`).
+     - `test/outputs/`: Generated JSON incident reports and annotated debug videos.
+     - `test/scripts/` (or dedicated source folders): Python scripts and utilities.
+     - `backup/`: Dedicated archival repository for deprecated, legacy, or superseded iteration files (e.g. earlier bank prototype scripts/logs) to maintain clean active directories.
+   - All scripts must reference and write to these organized subdirectories automatically. Deprecated files must be safely migrated to `backup/` without cluttering active project paths.

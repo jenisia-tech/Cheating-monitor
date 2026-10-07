@@ -1,0 +1,81 @@
+{
+  "video_metadata": {
+    "file_path": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/cctv_people_surveillance.mp4",
+    "total_frames": 596,
+    "fps": 12.0,
+    "duration_seconds": 49.67,
+    "operating_hours_configured": "09:00:00 to 17:00:00",
+    "simulated_start_time": "10:00:00"
+  },
+  "summary": {
+    "total_unique_tracks": 7,
+    "total_anomalies_detected": 4,
+    "anomalies_by_type": {
+      "UNAUTHORIZED_ZONE_BREACH": 4,
+      "AFTER_HOURS_INTRUSION": 0,
+      "FALL_AND_UNRESPONSIVE": 0
+    }
+  },
+  "incidents": [
+    {
+      "event_type": "UNAUTHORIZED_ZONE_BREACH",
+      "severity": "CRITICAL",
+      "track_id": 3,
+      "zone": "Vault_Restricted_Zone",
+      "start_frame": 215,
+      "start_timestamp": "10:00:17.917",
+      "end_frame": 233,
+      "end_timestamp": "10:00:19.417",
+      "foot_coordinates": [
+        170.9,
+        300.0
+      ],
+      "reason": "Person (Track #3) entered forbidden security zone 'Vault_Restricted_Zone' at ground coordinates (170.9, 300.0) without authorization."
+    },
+    {
+      "event_type": "UNAUTHORIZED_ZONE_BREACH",
+      "severity": "CRITICAL",
+      "track_id": 4,
+      "zone": "Vault_Restricted_Zone",
+      "start_frame": 211,
+      "start_timestamp": "10:00:17.583",
+      "end_frame": 242,
+      "end_timestamp": "10:00:20.167",
+      "foot_coordinates": [
+        284.8,
+        291.8
+      ],
+      "reason": "Person (Track #4) entered forbidden security zone 'Vault_Restricted_Zone' at ground coordinates (284.8, 291.8) without authorization."
+    },
+    {
+      "event_type": "UNAUTHORIZED_ZONE_BREACH",
+      "severity": "CRITICAL",
+      "track_id": 9,
+      "zone": "Vault_Restricted_Zone",
+      "start_frame": 371,
+      "start_timestamp": "10:00:30.917",
+      "end_frame": 393,
+      "end_timestamp": "10:00:32.750",
+      "foot_coordinates": [
+        234.8,
+        287.3
+      ],
+      "reason": "Person (Track #9) entered forbidden security zone 'Vault_Restricted_Zone' at ground coordinates (234.8, 287.3) without authorization."
+    },
+    {
+      "event_type": "UNAUTHORIZED_ZONE_BREACH",
+      "severity": "CRITICAL",
+      "track_id": 18,
+      "zone": "Vault_Restricted_Zone",
+      "start_frame": 540,
+      "start_timestamp": "10:00:45.000",
+      "end_frame": 556,
+      "end_timestamp": "10:00:46.333",
+      "foot_coordinates": [
+        276.9,
+        296.0
+      ],
+      "reason": "Person (Track #18) entered forbidden security zone 'Vault_Restricted_Zone' at ground coordinates (276.9, 296.0) without authorization."
+    }
+  ]
+}
