@@ -1,7 +1,7 @@
 {
   "multi_camera_session_metadata": {
-    "cam1_source": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/exam_hall_cam1_front.mp4",
-    "cam2_source": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/exam_hall_cam2_rear.mp4",
+    "cam1_source": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/cctv_people_surveillance.mp4",
+    "cam2_source": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/multi_person_traffic.mp4",
     "total_fused_candidates": 0,
     "total_fused_anomalies": 0,
     "simulated_start_time": "10:00:00"

@@ -111,6 +111,11 @@ class MultiCameraExamSynchronizer:
                             existing["verified_by_cameras"].append(inc["camera_source"])
                         existing["end_frame"] = max(existing["end_frame"], inc["end_frame"])
                         existing["end_timestamp"] = max(existing["end_timestamp"], inc["end_timestamp"])
+                        existing["frame_interval"] = [existing["start_frame"], existing["end_frame"]]
+                        existing["video_time_end"] = inc.get("video_time_end", existing.get("video_time_end", ""))
+                        if "video_time_start" in existing and "video_time_end" in existing:
+                            existing["video_time_interval"] = f"{existing['video_time_start']} - {existing['video_time_end']}"
+                        existing["duration"] = f"{round((existing['end_frame'] - existing['start_frame'])/12.0, 2)}s ({existing['end_frame'] - existing['start_frame'] + 1} frames)"
                         existing["confidence_score"] = "HIGH (Multi-Camera Verified)"
                         matched = True
                         break

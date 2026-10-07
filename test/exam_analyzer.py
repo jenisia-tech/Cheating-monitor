@@ -120,6 +120,59 @@ class ExamHallAnomalyAnalyzer:
         cur_s = curr_total % 60
         return f"{cur_h:02d}:{cur_m:02d}:{cur_s:06.3f}"
 
+    def _frame_to_video_time(self, frame_idx: int, fps: float) -> str:
+        """Converts frame index to elapsed video time string (e.g. '0m 37s' or '5m 45s')."""
+        total_seconds = int(frame_idx / max(fps, 1.0))
+        mins = total_seconds // 60
+        secs = total_seconds % 60
+        return f"{mins}m {secs:02d}s"
+
+    def _frame_to_clock_time(self, frame_idx: int, fps: float) -> str:
+        """Converts frame index to standard MM:SS or HH:MM:SS format (e.g. '00:37' or '05:45')."""
+        total_seconds = int(frame_idx / max(fps, 1.0))
+        hrs = total_seconds // 3600
+        mins = (total_seconds % 3600) // 60
+        secs = total_seconds % 60
+        if hrs > 0:
+            return f"{hrs:02d}:{mins:02d}:{secs:02d}"
+        return f"{mins:02d}:{secs:02d}"
+
+    def _format_incident(self, evt: Dict[str, Any], fps: float) -> Dict[str, Any]:
+        sf = evt["start_frame"]
+        ef = evt["end_frame"]
+        dur_sec = round((ef - sf) / max(fps, 1.0), 2)
+        total_f = max(1, ef - sf + 1)
+        
+        v_start = self._frame_to_video_time(sf, fps)
+        v_end = self._frame_to_video_time(ef, fps)
+        c_start = self._frame_to_clock_time(sf, fps)
+        c_end = self._frame_to_clock_time(ef, fps)
+        
+        formatted = {
+            "event_type": evt["event_type"],
+            "severity": evt.get("severity", "HIGH"),
+            "candidate_id": evt["candidate_id"],
+            "assigned_desk": evt["assigned_desk"],
+            "camera_source": evt.get("camera_source", "Cam_01_ExamHall"),
+            "start_frame": sf,
+            "end_frame": ef,
+            "frame_interval": [sf, ef],
+            "video_time_start": v_start,
+            "video_time_end": v_end,
+            "video_time_interval": f"{v_start} - {v_end} ({c_start} - {c_end})",
+            "duration": f"{dur_sec}s ({total_f} frames)",
+            "duration_seconds": dur_sec,
+            "start_timestamp": self._frame_to_timestamp(sf, fps),
+            "end_timestamp": self._frame_to_timestamp(ef, fps)
+        }
+        
+        for key in ["target_desks", "repeated_episodes_count", "torso_angle_degrees"]:
+            if key in evt:
+                formatted[key] = evt[key]
+                
+        formatted["reason"] = evt["reason"]
+        return formatted
+
     def _check_point_in_polygon(self, point: Tuple[float, float], polygon: List[List[int]]) -> bool:
         pts = np.array(polygon, dtype=np.int32)
         dist = cv2.pointPolygonTest(pts, (float(point[0]), float(point[1])), False)
@@ -457,7 +510,7 @@ class ExamHallAnomalyAnalyzer:
             closed_keys = [k for k in active_intervals.keys() if k not in current_active_incident_keys]
             for k in closed_keys:
                 evt = active_intervals.pop(k)
-                completed_events.append(evt)
+                completed_events.append(self._format_incident(evt, fps))
 
             # Optional annotated video rendering
             if video_writer is not None:
@@ -500,7 +553,7 @@ class ExamHallAnomalyAnalyzer:
 
         # Flush remaining intervals
         for k, evt in active_intervals.items():
-            completed_events.append(evt)
+            completed_events.append(self._format_incident(evt, fps))
 
         # Build report
         report = {
