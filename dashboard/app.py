@@ -49,16 +49,19 @@ async def serve_dashboard():
     return HTMLResponse(content="<h1>ProctorVision Dashboard Loaded</h1>")
 
 
+import urllib.parse
+
 @app.get("/media/video/{filename}")
 async def serve_video(filename: str):
-    # Check outputs first (annotated video), then videos
-    annotated = os.path.join(OUTPUTS_DIR, filename)
-    if os.path.exists(annotated):
-        return FileResponse(annotated, media_type="video/mp4")
-    raw = os.path.join(VIDEOS_DIR, filename)
-    if os.path.exists(raw):
-        return FileResponse(raw, media_type="video/mp4")
-    raise HTTPException(status_code=404, detail="Video not found")
+    decoded = urllib.parse.unquote(filename)
+    for name in [decoded, filename]:
+        annotated = os.path.join(OUTPUTS_DIR, name)
+        if os.path.exists(annotated):
+            return FileResponse(annotated, media_type="video/mp4")
+        raw = os.path.join(VIDEOS_DIR, name)
+        if os.path.exists(raw):
+            return FileResponse(raw, media_type="video/mp4")
+    raise HTTPException(status_code=404, detail=f"Video '{decoded}' not found")
 
 
 @app.post("/api/analyze")
@@ -76,13 +79,15 @@ async def analyze_uploaded_video(video: UploadFile = File(...)):
         out_json = os.path.join(OUTPUTS_DIR, f"{base_name}_exam_incidents.json")
         out_video = os.path.join(OUTPUTS_DIR, f"{base_name}_exam_annotated.mp4")
 
-        # Run Analyzer
+        # Run Analyzer (optimized for speed)
+        max_f = 600 if "irl_exam_hall" in safe_filename else None
         analyzer = ExamHallAnomalyAnalyzer(frame_stride=1)
         report = analyzer.process_video(
             video_path=dest_video_path,
             output_json_path=out_json,
             save_annotated_video=True,
-            output_video_path=out_video
+            output_video_path=out_video,
+            max_frames=max_f
         )
 
         return JSONResponse({
@@ -127,8 +132,8 @@ async def analyze_preset_video(filename: str = Query(...)):
 
 
 def run_server(port: int = 8000):
-    print(f"[INFO] Launching ProctorVision Server on http://localhost:{port}...")
-    uvicorn.run("app:app", host="127.0.0.1", port=port, reload=False, app_dir=DASHBOARD_DIR)
+    print(f"[INFO] Launching ProctorVision Server on http://localhost:{port} (http://127.0.0.1:{port})...")
+    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=False, app_dir=DASHBOARD_DIR)
 
 
 if __name__ == "__main__":

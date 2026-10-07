@@ -17,7 +17,7 @@
     ]
   },
   "summary": {
-    "total_candidates_tracked": 2,
+    "total_candidates_tracked": 1,
     "total_anomalies_detected": 1,
     "anomalies_by_type": {
       "UNAUTHORIZED_DESK_ABANDONMENT": 1,

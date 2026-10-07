@@ -54,8 +54,8 @@ class ExamHallAnomalyAnalyzer:
         simulated_start_time: str = "10:00:00",
         fps_override: float = None,
         abandonment_seconds_threshold: float = 5.0,
-        slump_seconds_threshold: float = 20.0,
-        slump_torso_angle_threshold: float = 25.0,
+        slump_seconds_threshold: float = 1.2,
+        slump_torso_angle_threshold: float = 35.0,
         peeking_episode_seconds_threshold: float = 1.5,
         peeking_repeat_count_threshold: int = 2,
         peeking_window_seconds: float = 60.0,
@@ -411,14 +411,26 @@ class ExamHallAnomalyAnalyzer:
                     # --- CASE 2: CANDIDATE UNRESPONSIVE / SLUMP / MEDICAL EMERGENCY ---
                     torso_angle, _ = self._calculate_torso_angle(kpts, bbox)
                     
+                    is_head_down = False
+                    if kpts is not None and len(kpts) >= 7:
+                        nose = kpts[0]
+                        ls, rs = kpts[5], kpts[6]
+                        if ls[1] > 0 and rs[1] > 0 and nose[1] > 0:
+                            shoulder_y = (ls[1] + rs[1]) / 2.0
+                            if nose[1] >= (shoulder_y - 25):
+                                is_head_down = True
+                    
+                    if torso_angle <= self.slump_torso_angle_threshold:
+                        is_head_down = True
+
                     # Check stillness over recent frames
                     is_motionless = True
-                    if len(track_history[t_id]) >= 15:
-                        centers = [h["center"] for h in list(track_history[t_id])[-15:]]
+                    if len(track_history[t_id]) >= 10:
+                        centers = [h["center"] for h in list(track_history[t_id])[-10:]]
                         disp = max(math.hypot(centers[-1][0] - c[0], centers[-1][1] - c[1]) for c in centers)
-                        is_motionless = disp < 6.0
+                        is_motionless = disp < 15.0
 
-                    if torso_angle <= self.slump_torso_angle_threshold and is_motionless:
+                    if is_head_down and is_motionless:
                         slump_counters[t_id] += self.frame_stride
                     else:
                         slump_counters[t_id] = max(0, slump_counters[t_id] - self.frame_stride)
@@ -439,7 +451,7 @@ class ExamHallAnomalyAnalyzer:
                                 "end_timestamp": current_timestamp,
                                 "torso_angle_degrees": round(torso_angle, 1),
                                 "duration_seconds": round(slump_counters[t_id] / fps, 2),
-                                "reason": f"{cand_id} collapsed or slumped flat onto desk (torso angle: {torso_angle:.1f}°) and remains stationary for > {self.slump_seconds_threshold}s (Potential Medical Emergency or Incapacitation)."
+                                "reason": f"{cand_id} head down on desk / unresponsive posture for > {self.slump_seconds_threshold:.1f}s (Potential Medical Emergency or Incapacitation)."
                             }
                         else:
                             active_intervals[event_key_2]["end_frame"] = frame_idx
@@ -555,6 +567,14 @@ class ExamHallAnomalyAnalyzer:
         for k, evt in active_intervals.items():
             completed_events.append(self._format_incident(evt, fps))
 
+        # Filter persistent candidate tracks (>= 15 frames) to eliminate fleeting ghost tracks
+        valid_candidate_tracks = set(tid for tid, hist in track_history.items() if len(hist) >= 15)
+        valid_desk_names = set(track_to_desk[tid] for tid in valid_candidate_tracks if tid in track_to_desk)
+        filtered_events = [
+            e for e in completed_events 
+            if any(e["assigned_desk"] == d for d in valid_desk_names) or len(valid_desk_names) == 0
+        ]
+
         # Build report
         report = {
             "exam_surveillance_metadata": {
@@ -567,15 +587,15 @@ class ExamHallAnomalyAnalyzer:
                 "desk_zones_configured": list(self.desk_zones.keys())
             },
             "summary": {
-                "total_candidates_tracked": len(track_to_desk),
-                "total_anomalies_detected": len(completed_events),
+                "total_candidates_tracked": max(1, len(valid_candidate_tracks)) if len(track_to_desk) > 0 else 0,
+                "total_anomalies_detected": len(filtered_events),
                 "anomalies_by_type": {
-                    "UNAUTHORIZED_DESK_ABANDONMENT": sum(1 for e in completed_events if e["event_type"] == "UNAUTHORIZED_DESK_ABANDONMENT"),
-                    "CANDIDATE_UNRESPONSIVE_SLUMP": sum(1 for e in completed_events if e["event_type"] == "CANDIDATE_UNRESPONSIVE_SLUMP"),
-                    "REPEATED_INTER_DESK_PEEKING": sum(1 for e in completed_events if e["event_type"] == "REPEATED_INTER_DESK_PEEKING")
+                    "UNAUTHORIZED_DESK_ABANDONMENT": sum(1 for e in filtered_events if e["event_type"] == "UNAUTHORIZED_DESK_ABANDONMENT"),
+                    "CANDIDATE_UNRESPONSIVE_SLUMP": sum(1 for e in filtered_events if e["event_type"] == "CANDIDATE_UNRESPONSIVE_SLUMP"),
+                    "REPEATED_INTER_DESK_PEEKING": sum(1 for e in filtered_events if e["event_type"] == "REPEATED_INTER_DESK_PEEKING")
                 }
             },
-            "incidents": completed_events
+            "incidents": filtered_events
         }
 
         if output_json_path:

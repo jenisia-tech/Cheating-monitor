@@ -1,0 +1,71 @@
+{
+  "exam_surveillance_metadata": {
+    "file_path": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/WhatsApp Video 2026-10-07 at 16.26.31.mp4",
+    "camera_source": "Cam_01_ExamHall",
+    "total_frames": 651,
+    "fps": 30.01,
+    "duration_seconds": 21.69,
+    "simulated_start_time": "10:00:00",
+    "desk_zones_configured": [
+      "Desk_01",
+      "Desk_02",
+      "Desk_03",
+      "Desk_04",
+      "Invigilator_Podium",
+      "Desk_Candidate_01"
+    ]
+  },
+  "summary": {
+    "total_candidates_tracked": 7,
+    "total_anomalies_detected": 2,
+    "anomalies_by_type": {
+      "UNAUTHORIZED_DESK_ABANDONMENT": 2,
+      "CANDIDATE_UNRESPONSIVE_SLUMP": 0,
+      "REPEATED_INTER_DESK_PEEKING": 0
+    }
+  },
+  "incidents": [
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_01",
+      "assigned_desk": "Desk_01",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 465,
+      "end_frame": 629,
+      "frame_interval": [
+        465,
+        629
+      ],
+      "video_time_start": "0m 15s",
+      "video_time_end": "0m 20s",
+      "video_time_interval": "0m 15s - 0m 20s (00:15 - 00:20)",
+      "duration": "5.47s (165 frames)",
+      "duration_seconds": 5.47,
+      "start_timestamp": "10:00:15.495",
+      "end_timestamp": "10:00:20.960",
+      "reason": "Candidate_Desk_01 abandoned assigned Desk_01 and is wandering in aisles/unauthorized areas for > 5.0s."
+    },
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Candidate_01",
+      "assigned_desk": "Desk_Candidate_01",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 20,
+      "end_frame": 650,
+      "frame_interval": [
+        20,
+        650
+      ],
+      "video_time_start": "0m 00s",
+      "video_time_end": "0m 21s",
+      "video_time_interval": "0m 00s - 0m 21s (00:00 - 00:21)",
+      "duration": "20.99s (631 frames)",
+      "duration_seconds": 20.99,
+      "start_timestamp": "10:00:00.666",
+      "end_timestamp": "10:00:21.660",
+      "reason": "Candidate_Desk_Candidate_01 abandoned assigned Desk_Candidate_01 and is wandering in aisles/unauthorized areas for > 5.0s."
+    }
+  ]
+}
