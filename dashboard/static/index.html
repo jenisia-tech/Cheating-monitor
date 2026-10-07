@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Hall Behaviour Monitor | HNX26PSI07</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0d14;
+      --bg-secondary: #101522;
+      --bg-card: rgba(20, 26, 42, 0.7);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(99, 102, 241, 0.5);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
+      --accent-glow: rgba(99, 102, 241, 0.25);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.12);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.12);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.12);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-sm: 6px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(244, 63, 94, 0.06) 0%, transparent 40%);
+    }
+
+    header {
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 13, 20, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #6366f1, #a855f7);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: white;
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .badges {
+      display: flex;
+      gap: 10px;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+    }
+
+    .badge-live {
+      background: var(--success-bg);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: var(--success);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-live::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    main {
+      flex: 1;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .hero-text {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .hero-text h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .hero-text p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Upload Box */
+    .upload-card {
+      background: var(--bg-card);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px 24px;
+      text-align: center;
+      backdrop-filter: blur(16px);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .upload-card:hover, .upload-card.drag-over {
+      border-color: var(--accent);
+      background: rgba(30, 38, 62, 0.7);
+      box-shadow: 0 0 30px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    .upload-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+    }
+
+    .upload-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .upload-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-focus);
+    }
+
+    .preset-samples {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .preset-chip {
+      font-size: 0.78rem;
+      padding: 5px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .preset-chip:hover {
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+
+    /* Loading Overlay */
+    .loading-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 20px;
+      gap: 16px;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-status {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .loading-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Results Window */
+    .results-container {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      backdrop-filter: blur(12px);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .video-panel, .incidents-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    video {
+      width: 100%;
+      border-radius: var(--radius-md);
+      background: #000;
+      max-height: 380px;
+      object-fit: contain;
+    }
+
+    .incident-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 480px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .incident-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-left: 4px solid var(--accent);
+      transition: transform 0.15s;
+    }
+
+    .incident-card:hover {
+      transform: translateX(2px);
+      border-color: var(--border-focus);
+    }
+
+    .incident-card.high {
+      border-left-color: var(--warning);
+    }
+
+    .incident-card.critical {
+      border-left-color: var(--danger);
+    }
+
+    .incident-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .incident-type {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .tag {
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .tag-high {
+      background: var(--warning-bg);
+      color: var(--warning);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .tag-critical {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .incident-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .incident-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .incident-desc {
+      font-size: 0.84rem;
+      color: var(--text-primary);
+      line-height: 1.45;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+
+    .actions-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-top: 10px;
+    }
+
+    .json-drawer {
+      display: none;
+      background: #06090e;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: #38bdf8;
+      max-height: 320px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      </div>
+      <div>
+        <div class="brand-title">ProctorVision AI Monitor</div>
+        <div class="brand-subtitle">HNX26PSI07 Autonomous Vision & Behaviour Understanding</div>
+      </div>
+    </div>
+    <div class="badges">
+      <div class="badge badge-live">YOLO11 Pose Engine Active</div>
+      <div class="badge">MacBook i5 / 8GB Profile</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero-text">
+      <h1>Autonomous Exam Hall Surveillance</h1>
+      <p>Instant behavioral anomaly analysis: Detects desk abandonment, unresponsiveness, and repeated inter-desk malpractice with millisecond frame precision.</p>
+    </div>
+
+    <!-- Upload Card -->
+    <div class="upload-card" id="dropzone" onclick="document.getElementById('fileInput').click()">
+      <input type="file" id="fileInput" accept="video/mp4,video/webm,video/avi" style="display: none;" onchange="handleFileSelect(this.files[0])">
+      <div class="upload-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+      </div>
+      <div class="upload-title">Drop an Exam CCTV Video Here, or Click to Browse</div>
+      <div class="upload-desc">Supports MP4, WebM (Auto-analyzes immediately upon upload)</div>
+      <button class="btn btn-primary" onclick="event.stopPropagation(); document.getElementById('fileInput').click();">Select Video File</button>
+
+      <div class="preset-samples" onclick="event.stopPropagation();">
+        <span style="font-size: 0.78rem; color: var(--text-muted);">Or run preloaded test:</span>
+        <span class="preset-chip" onclick="runPreset('looking around.mp4')">🔍 looking around.mp4</span>
+        <span class="preset-chip" onclick="runPreset('WhatsApp Video 2026-10-07 at 14.56.05.mp4')">📹 WhatsApp Video 1</span>
+        <span class="preset-chip" onclick="runPreset('irl_exam_hall_cctv.mp4')">🏛️ irl_exam_hall_cctv.mp4</span>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-container" id="loading">
+      <div class="spinner"></div>
+      <div class="loading-status" id="loadingStatus">Uploading & Analyzing CCTV Video...</div>
+      <div class="loading-sub" id="loadingSub">Running YOLO11-Pose landmark extraction & ByteTrack spatial evaluation</div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-container" id="results">
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-label">Candidates Tracked</div>
+          <div class="stat-value" id="statCandidates">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Anomalies</div>
+          <div class="stat-value" id="statAnomalies" style="color: var(--warning);">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Video Duration</div>
+          <div class="stat-value" id="statDuration">0.0s</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Frame Rate</div>
+          <div class="stat-value" id="statFPS">0 FPS</div>
+        </div>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="content-grid">
+        <!-- Video Preview -->
+        <div class="video-panel">
+          <div class="panel-header">
+            <div class="panel-title">Video Feed with Active Playback</div>
+            <span class="badge" id="videoNameBadge">clip.mp4</span>
+          </div>
+          <video id="videoPlayer" controls autoplay muted></video>
+        </div>
+
+        <!-- Incidents List -->
+        <div class="incidents-panel">
+          <div class="panel-header">
+            <div class="panel-title">Extracted Incident Log & Timeline</div>
+            <span class="badge" id="incidentCountBadge">0 Incidents</span>
+          </div>
+          <div class="incident-list" id="incidentList">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions Bar -->
+      <div class="actions-bar">
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-primary" id="downloadBtn" onclick="downloadJSON()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download Incident Report (.json)
+          </button>
+          <button class="btn btn-secondary" onclick="toggleJSONDrawer()">
+            Toggle Raw JSON Inspector
+          </button>
+        </div>
+        <button class="btn btn-secondary" onclick="resetDashboard()">
+          Analyze Another Video
+        </button>
+      </div>
+
+      <!-- Raw JSON Drawer -->
+      <div class="json-drawer" id="jsonDrawer"></div>
+    </div>
+  </main>
+
+  <script>
+    let currentReport = null;
+    let currentVideoURL = null;
+    let currentReportFilename = "exam_incidents.json";
+
+    const dropzone = document.getElementById('dropzone');
+    const loading = document.getElementById('loading');
+    const results = document.getElementById('results');
+
+    // Drag & Drop Handlers
+    ['dragenter', 'dragover'].forEach(name => {
+      dropzone.addEventListener(name, (e) => {
+        e.preventDefault();
+        dropzone.classList.add('drag-over');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(name => {
+      dropzone.addEventListener(name, (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('drag-over');
+      });
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      if (files.length > 0) handleFileSelect(files[0]);
+    });
+
+    function handleFileSelect(file) {
+      if (!file) return;
+      const formData = new FormData();
+      formData.append('video', file);
+      
+      startAnalysis('/api/analyze', {
+        method: 'POST',
+        body: formData
+      }, file.name);
+    }
+
+    function runPreset(filename) {
+      startAnalysis(`/api/analyze_preset?filename=${encodeURIComponent(filename)}`, {
+        method: 'POST'
+      }, filename);
+    }
+
+    function startAnalysis(url, fetchOptions, filename) {
+      dropzone.style.display = 'none';
+      results.style.display = 'none';
+      loading.style.display = 'flex';
+      document.getElementById('loadingStatus').innerText = `Analyzing ${filename}...`;
+
+      fetch(url, fetchOptions)
+        .then(res => {
+          if (!res.ok) throw new Error('Analysis request failed.');
+          return res.json();
+        })
+        .then(data => {
+          currentReport = data.report;
+          currentVideoURL = data.video_url;
+          currentReportFilename = `${filename.replace(/\.[^/.]+$/, "")}_exam_incidents.json`;
+          renderResults(data.report, data.video_url, filename);
+        })
+        .catch(err => {
+          alert('Error analyzing video: ' + err.message);
+          resetDashboard();
+        });
+    }
+
+    function renderResults(report, videoUrl, filename) {
+      loading.style.display = 'none';
+      results.style.display = 'flex';
+
+      // Metadata Stats
+      document.getElementById('statCandidates').innerText = report.summary.total_candidates_tracked || 0;
+      document.getElementById('statAnomalies').innerText = report.summary.total_anomalies_detected || 0;
+      document.getElementById('statDuration').innerText = `${report.exam_surveillance_metadata.duration_seconds}s`;
+      document.getElementById('statFPS').innerText = `${report.exam_surveillance_metadata.fps} FPS`;
+      document.getElementById('videoNameBadge').innerText = filename;
+
+      // Video Source
+      const videoPlayer = document.getElementById('videoPlayer');
+      videoPlayer.src = videoUrl;
+
+      // Incident List
+      const incidentList = document.getElementById('incidentList');
+      incidentList.innerHTML = '';
+      const incidents = report.incidents || [];
+      document.getElementById('incidentCountBadge').innerText = `${incidents.length} Detected`;
+
+      if (incidents.length === 0) {
+        incidentList.innerHTML = `
+          <div class="empty-state">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 10px; color: var(--success);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4L12 14.01l-3-3"/></svg>
+            <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">Zero Anomalies Detected</div>
+            <div style="font-size: 0.8rem;">Candidates remained compliant with assigned desk boundaries.</div>
+          </div>
+        `;
+      } else {
+        incidents.forEach(inc => {
+          const card = document.createElement('div');
+          const isCrit = inc.severity === 'CRITICAL';
+          card.className = `incident-card ${isCrit ? 'critical' : 'high'}`;
+
+          const timeInterval = inc.video_time_interval || `${inc.video_time_start} - ${inc.video_time_end}`;
+          const frameInterval = inc.frame_interval ? `Frames ${inc.frame_interval[0]}–${inc.frame_interval[1]}` : `Frame ${inc.start_frame}`;
+
+          card.innerHTML = `
+            <div class="incident-header">
+              <div class="incident-type">${inc.event_type.replace(/_/g, ' ')}</div>
+              <span class="tag ${isCrit ? 'tag-critical' : 'tag-high'}">${inc.severity}</span>
+            </div>
+            <div class="incident-meta">
+              <div class="incident-meta-item">👤 <strong>${inc.candidate_id}</strong> (${inc.assigned_desk})</div>
+              <div class="incident-meta-item">⏱️ <strong>${timeInterval}</strong></div>
+              <div class="incident-meta-item">🎞️ <strong>${frameInterval}</strong></div>
+              <div class="incident-meta-item">⏳ ${inc.duration || inc.duration_seconds + 's'}</div>
+            </div>
+            <div class="incident-desc">${inc.reason}</div>
+          `;
+
+          // Click to seek video to timestamp
+          card.style.cursor = 'pointer';
+          card.title = 'Click to seek video to incident start';
+          card.onclick = () => {
+            if (inc.start_frame !== undefined && report.exam_surveillance_metadata.fps) {
+              const seekSeconds = inc.start_frame / report.exam_surveillance_metadata.fps;
+              videoPlayer.currentTime = Math.max(0, seekSeconds - 0.5);
+              videoPlayer.play();
+            }
+          };
+
+          incidentList.appendChild(card);
+        });
+      }
+
+      // Populate JSON Drawer
+      document.getElementById('jsonDrawer').innerText = JSON.stringify(report, null, 2);
+    }
+
+    function toggleJSONDrawer() {
+      const drawer = document.getElementById('jsonDrawer');
+      drawer.style.display = drawer.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function downloadJSON() {
+      if (!currentReport) return;
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentReport, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", currentReportFilename);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function resetDashboard() {
+      currentReport = null;
+      document.getElementById('fileInput').value = '';
+      results.style.display = 'none';
+      loading.style.display = 'none';
+      dropzone.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
