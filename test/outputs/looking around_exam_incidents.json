@@ -1,0 +1,74 @@
+{
+  "exam_surveillance_metadata": {
+    "file_path": "/Users/Chris David/Documents/Hackathon/Hacknex/test/videos/looking around.mp4",
+    "camera_source": "Cam_01_ExamHall",
+    "total_frames": 508,
+    "fps": 30.01,
+    "duration_seconds": 16.93,
+    "simulated_start_time": "10:00:00",
+    "desk_zones_configured": [
+      "Desk_01",
+      "Desk_02",
+      "Desk_03",
+      "Desk_04",
+      "Invigilator_Podium",
+      "Desk_Candidate_01",
+      "Desk_Candidate_03"
+    ]
+  },
+  "summary": {
+    "total_candidates_tracked": 2,
+    "total_anomalies_detected": 2,
+    "anomalies_by_type": {
+      "UNAUTHORIZED_DESK_ABANDONMENT": 1,
+      "CANDIDATE_UNRESPONSIVE_SLUMP": 0,
+      "REPEATED_INTER_DESK_PEEKING": 1
+    }
+  },
+  "incidents": [
+    {
+      "event_type": "UNAUTHORIZED_DESK_ABANDONMENT",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Candidate_01",
+      "assigned_desk": "Desk_Candidate_01",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 0,
+      "end_frame": 507,
+      "frame_interval": [
+        0,
+        507
+      ],
+      "video_time_start": "0m 00s",
+      "video_time_end": "0m 16s",
+      "video_time_interval": "0m 00s - 0m 16s (00:00 - 00:16)",
+      "duration": "16.89s (508 frames)",
+      "duration_seconds": 16.89,
+      "start_timestamp": "10:00:00.000",
+      "end_timestamp": "10:00:16.895",
+      "reason": "Candidate_Desk_Candidate_01 abandoned assigned Desk_Candidate_01 and is wandering in aisles/unauthorized areas for > 5.0s."
+    },
+    {
+      "event_type": "REPEATED_INTER_DESK_PEEKING",
+      "severity": "HIGH",
+      "candidate_id": "Candidate_Desk_Candidate_01",
+      "assigned_desk": "Desk_Candidate_01",
+      "camera_source": "Cam_01_ExamHall",
+      "start_frame": 44,
+      "end_frame": 507,
+      "frame_interval": [
+        44,
+        507
+      ],
+      "video_time_start": "0m 01s",
+      "video_time_end": "0m 16s",
+      "video_time_interval": "0m 01s - 0m 16s (00:01 - 00:16)",
+      "duration": "15.43s (464 frames)",
+      "duration_seconds": 15.43,
+      "start_timestamp": "10:00:01.466",
+      "end_timestamp": "10:00:16.895",
+      "target_desks": "Desk_02",
+      "repeated_episodes_count": 3,
+      "reason": "Candidate_Desk_Candidate_01 exhibited repeated suspicious peeking/leaning (2 distinct episodes in 60s window) towards adjacent Desk_02 (Single glances were filtered)."
+    }
+  ]
+}

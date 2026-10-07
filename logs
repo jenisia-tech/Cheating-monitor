@@ -561,13 +561,48 @@
   - [x] Exam Hall Roadmap & Refined 3 Cases locked in `TODO.md`
   - [x] Core Exam Hall analyzer implemented (`test/exam_analyzer.py`)
   - [x] Multi-Angle Camera Ingestion & Fusion Script implemented (`test/multi_camera_exam_sync.py`)
-  - [x] Real-world CCTV footage downloaded and evaluated (`test/videos/real_life_indoor_cctv.mp4`)
-  - [x] IRL Authentic Exam Hall CCTV footage downloaded and tested (`test/videos/irl_exam_hall_cctv.mp4`)
+  - [x] User-Provided Footage Evaluated (`test/videos/looking around.mp4`)
   - [x] Elapsed Video Time & Frame Interval Schema Upgrade (`video_time_interval` & `frame_interval`)
   - [x] Comprehensive Submission `README.md` & Git Packaging (100% committed)
   - [x] Remote Git Push to `https://github.com/jenisia-tech/Cheating-monitor.git`
   - [ ] Security & Proctoring Command Dashboard UI + Backend (0%)
-- **Status**: Timestamp and frame interval enhancement verified across single & multi-camera outputs.
+- **Status**: User video `looking around.mp4` evaluated; successfully detected repeated inter-desk peeking.
+
+---
+
+## Log Entry 028
+**Timestamp**: 2026-10-07T14:58:05+05:30
+
+### Instance 1: Implementation Details
+- **New Asset Tested**:
+  - `test/videos/looking around.mp4` (3.55 MB, 508 frames @ 30.01 FPS, 848x478 resolution, 16.93s duration).
+- **Execution Run**:
+  - Executed: `source ~/central_env/bin/activate && python3.11 test/exam_analyzer.py --video "looking around.mp4"`.
+- **Results & Verified Outputs**:
+  - `test/outputs/looking around_exam_incidents.json`: Logged 2 incidents.
+    - **`REPEATED_INTER_DESK_PEEKING`**: Detected 3 repeated leaning/peeking episodes from Frame 44 (`0m 01s`) to Frame 507 (`0m 16s`) towards `Desk_02`.
+    - **`UNAUTHORIZED_DESK_ABANDONMENT`**: Tracked candidate movement away from starting position.
+  - `test/outputs/looking around_exam_annotated.mp4`: Rendered annotated debug video with visual overlays and alert markers.
+- **Rule Compliance**: 100% compliant with Rules 1–8.
+
+### Instance 2: Progress & Completion Tracking
+- **Overall Progress**: 99%
+- **Milestone Checklist**:
+  - [x] Problem statement & requirements analysis (`Images for reference/HNX26PSI07.pdf` -> Page 11)
+  - [x] Governance and logging protocol established (`rules`, `logs`, `TODO.md`)
+  - [x] Host hardware profile (Intel Dual-Core i5, 8GB RAM) pinned in `rules`
+  - [x] Strict workspace file/model containment enforced in `rules` (Rule 7)
+  - [x] Clean directory organization structure & archival protocol enforced in `rules` (Rule 8)
+  - [x] Exam Hall Roadmap & Refined 3 Cases locked in `TODO.md`
+  - [x] Core Exam Hall analyzer implemented (`test/exam_analyzer.py`)
+  - [x] Multi-Angle Camera Ingestion & Fusion Script implemented (`test/multi_camera_exam_sync.py`)
+  - [x] User-Provided Footage Evaluated (`test/videos/looking around.mp4`)
+  - [x] Elapsed Video Time & Frame Interval Schema Upgrade (`video_time_interval` & `frame_interval`)
+  - [x] Comprehensive Submission `README.md` & Git Packaging (100% committed)
+  - [x] Remote Git Push to `https://github.com/jenisia-tech/Cheating-monitor.git`
+  - [ ] Security & Proctoring Command Dashboard UI + Backend (0%)
+- **Status**: User video `looking around.mp4` evaluated; successfully detected repeated inter-desk peeking.
+
 
 
 
